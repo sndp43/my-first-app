@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-xs-12">
+      <form action="" [formGroup]="recipeForm">
+        <div class="row">
+          <div class="col-xs 12">
+            <button [disabled]="!recipeForm.valid" type="submit" class="btn btn-success" (click)="onSubmit()">Save</button>
+            <button
+            type="button"
+            class="btn btn-danger"
+            (click)="onCancel()"
+            >Cancel</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+              formControlName="name"
+              type="text"
+              id="name"
+              name="name"
+              class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="imagePath">image URL</label>
+              <input
+              formControlName="imagePath"
+              type="text"
+              id="imagePath"
+              name="imagePath"
+              class="form-control"
+              #imagePath
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+           <img  [src]="imagePath.value" src="" alt="" class="img-responsive">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="desc">Description</label>
+              <textarea
+              formControlName="desc"
+              row="6"
+              type="text"
+              id="desc"
+              name="desc"
+              class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12" formArrayName="ingredients">
+            <div
+            style="margin:5px;"
+            class="row"
+            *ngFor="let ingredientCtr of controls;let i = index"
+            [formGroupName]="i"
+            >
+              <div class="col-xs-2">
+                <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                >
+              </div>
+              <div class="col-xs-2">
+                <input
+                type="number"
+                class="form-control"
+                formControlName="amount"
+                >
+              </div>
+              <div class="col-xs-4">
+                <select
+                class="form-control"
+                formControlName="category"
+                (ngModelChange)="getSubcat($event,i)"
+                >
+                  <option value="">Select</option>
+                  <option *ngFor="let cat of categories;let cat_i = index" value="{{ cat.id }}">{{ cat.cat_name }}</option>
+                </select>
+
+              </div>
+              <div class="col-xs-2">
+                <select
+                class="form-control"
+                formControlName="sub_category"
+                >
+                  <option value="">Select</option>
+                  <option *ngFor="let asset of fetched_assets$[i]|async ;let asset_i = index" value="{{ asset.id }}">{{ asset.description }}</option>
+                </select>
+
+              </div>
+              <div class="col-xs-2">
+                <button
+                type="button"
+                class="btn btn-danger"
+                 (click)="onDeleteIngredient(i)"
+                >X</button>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <button class="btn btn-primary" (click)="AddIngredient()">Add Ingredient</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
